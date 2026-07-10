@@ -682,6 +682,20 @@ button {
   border-radius: 10px;
 }
 
+.register-connect-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 64px;
+  height: 64px;
+  z-index: 5;
+  border: 5px solid var(--green);
+  border-radius: 8px;
+  opacity: 0;
+  animation: connectShow 0.6s ease 1s forwards;
+  pointer-events: none;
+}
+
 .scene6 .caption {
   top: 8px;
 }
@@ -1097,6 +1111,11 @@ button {
     height: 116px;
   }
 
+  .register-connect-box {
+    top: 58px;
+    height: 58px;
+  }
+
   .mixed-items {
     grid-template-columns: repeat(6, 9px);
     gap: 3px;
@@ -1317,7 +1336,7 @@ const scenes = [
       <div class="board scene6">
         ${compareLayout(
           `<div class="shelf-wrap">${shelf(4, { colors: { 2: "yellow", 3: "pink", 4: "green" }, counts: { 2: 3, 3: 3, 4: 3 } })}<div class="connect-box"></div></div>`,
-          scene6RegisteredShelf()
+          `<div class="shelf-wrap registered-wrap">${scene6RegisteredShelf()}<div class="register-connect-box"></div></div>`
         )}
         <div class="caption late">2段目と3段目をつないで登録していた</div>
       </div>
