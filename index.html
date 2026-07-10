@@ -636,32 +636,32 @@ button {
 }
 
 .scene6 .comparison {
-  top: 72px;
-  gap: 18px;
+  top: 86px;
+  gap: 22px;
 }
 
 .scene6 .shelf {
-  width: 154px;
+  width: 162px;
 }
 
 .scene6 .shelf.small {
-  width: 154px;
+  width: 158px;
 }
 
 .scene6 .shelf-row {
   height: 66px;
   gap: 4px;
-  padding-left: 28px;
+  padding-left: 30px;
 }
 
 .scene6 .shelf.small .shelf-row {
-  height: 66px;
-  padding-left: 28px;
+  height: 70px;
+  padding-left: 30px;
 }
 
 .scene6 .item {
-  width: 24px;
-  height: 29px;
+  width: 25px;
+  height: 30px;
 }
 
 .scene6 .row-num {
@@ -671,10 +671,72 @@ button {
 .scene6 .connect-box {
   top: 66px;
   height: 132px;
+  border-radius: 10px;
 }
 
 .scene6 .caption {
   top: 8px;
+}
+
+.scene6 .mini-title {
+  min-height: 26px;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+}
+
+.scene6-registered {
+  overflow: visible;
+}
+
+.scene6-registered .mixed-row {
+  overflow: visible;
+}
+
+.mixed-items {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 25px);
+  gap: 4px 5px;
+  padding: 5px 7px;
+  border: 4px solid var(--red);
+  background: white;
+}
+
+.mixed-items::before,
+.mixed-items::after,
+.scene6-registered .mixed-row::before,
+.scene6-registered .mixed-row::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.mixed-items::before {
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mixed-items::after {
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.scene6-registered .mixed-row::before {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scene6-registered .mixed-row::after {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .color-legend {
@@ -1094,6 +1156,28 @@ function compareLayout(left, right, extra = "") {
   `;
 }
 
+function scene6RegisteredShelf() {
+  return `
+    <div class="shelf small scene6-registered">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row mixed-row">
+        <span class="row-num">2</span>
+        <div class="mixed-items">
+          <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+          <span class="item pink"></span><span class="item pink"></span><span class="item pink"></span>
+        </div>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">3</span>
+        <span class="item green"></span><span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
 function group(color = "green") {
   return `
     <div class="moving-group">
@@ -1168,9 +1252,8 @@ const scenes = [
     body: `
       <div class="board scene6">
         ${compareLayout(
-          `<div class="shelf-wrap">${shelf(4, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 3, 3: 3 } })}<div class="connect-box"></div></div>`,
-          dataShelf(3, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 6, 3: 3 } }),
-          `<div class="wrong-connect"></div>`
+          `<div class="shelf-wrap">${shelf(4, { colors: { 2: "yellow", 3: "pink", 4: "green" }, counts: { 2: 3, 3: 3, 4: 3 } })}<div class="connect-box"></div></div>`,
+          scene6RegisteredShelf()
         )}
         <div class="caption late">2段目と3段目をつないで登録していた</div>
       </div>
