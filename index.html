@@ -478,6 +478,9 @@ button {
   max-width: 168px;
   padding: 10px 12px;
   font-size: 1rem;
+  opacity: 0;
+  transform: scale(0.72);
+  animation: popIn 0.35s ease 2.25s forwards;
 }
 
 .scene2 .shelf {
@@ -1161,7 +1164,7 @@ const scenes = [
     `
   },
   {
-    title: "これはまずい！",
+    title: "棚をつないでしまった場合<br>実際の棚数多＞カウントの棚数少",
     body: `
       <div class="board scene6">
         ${compareLayout(
@@ -1169,7 +1172,7 @@ const scenes = [
           dataShelf(3, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 6, 3: 3 } }),
           `<div class="wrong-connect"></div>`
         )}
-        <div class="caption late">実際の棚と登録上の棚で、<br>2段目と3段目をつないで登録していた</div>
+        <div class="caption late">2段目と3段目をつないで登録していた</div>
       </div>
     `
   },
