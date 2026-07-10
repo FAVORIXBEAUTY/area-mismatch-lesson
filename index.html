@@ -117,9 +117,9 @@ button {
   position: relative;
   width: 100%;
   min-height: 492px;
-  border: 3px solid #334155;
-  border-radius: 10px;
-  background: var(--paper);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -202,13 +202,29 @@ button {
   position: absolute;
   left: 16px;
   right: 16px;
-  bottom: 12px;
+  top: 12px;
   z-index: 7;
   padding: 10px 12px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.92);
   color: var(--text);
   font-size: 1rem;
+  line-height: 1.35;
+  font-weight: 900;
+  text-align: center;
+}
+
+.top-note {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 8px;
+  z-index: 9;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  font-size: 1.02rem;
   line-height: 1.35;
   font-weight: 900;
   text-align: center;
@@ -272,6 +288,18 @@ button {
   font-weight: 900;
 }
 
+.big-count .row-num {
+  width: 38px;
+  height: 38px;
+  left: -2px;
+  border-width: 3px;
+  font-size: 1.35rem;
+}
+
+.big-count .shelf-row {
+  padding-left: 42px;
+}
+
 .item {
   width: 30px;
   height: 34px;
@@ -317,6 +345,18 @@ button {
 
 .shelf-row .jan:first-of-type {
   margin-right: 2px;
+}
+
+.item-stack {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+
+.item-stack .jan {
+  width: 27px;
+  height: 13px;
+  transform-origin: center top;
 }
 
 .shelf-row.count-row .row-num {
@@ -427,9 +467,10 @@ button {
 
 .scene3 .fuicchi {
   position: absolute;
-  left: 106px;
-  top: 236px;
+  left: 55px;
+  top: 210px;
   z-index: 6;
+  width: 278px;
   opacity: 0;
   animation: fadeUp 0.5s ease 0.9s forwards;
 }
@@ -447,18 +488,19 @@ button {
 
 .scene5 .shelf {
   position: absolute;
-  left: 24px;
-  top: 96px;
+  left: 18px;
+  top: 92px;
+  width: 220px;
 }
 
 .scene5 .register {
   position: absolute;
-  right: 20px;
-  top: 144px;
+  right: 12px;
+  top: 160px;
 }
 
 .scene5 .jan {
-  animation: janFlash 1s ease forwards;
+  animation: janZoom 1s ease forwards;
 }
 
 .scene5 .shelf-row:nth-child(1) .jan {
@@ -756,6 +798,20 @@ button {
   }
 }
 
+@keyframes janZoom {
+  0%,
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  45%,
+  75% {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.25);
+    transform: scale(1.95);
+  }
+}
+
 @keyframes connectShow {
   from {
     opacity: 0;
@@ -871,6 +927,7 @@ function img(name, className, alt = "") {
 function shelf(rows = 4, options = {}) {
   const size = options.size ? ` ${options.size}` : "";
   const jan = options.jan || false;
+  const janBelow = options.janBelow || false;
   const count = options.count || false;
   const colors = options.colors || {};
   const labels = options.labels !== false;
@@ -888,7 +945,9 @@ function shelf(rows = 4, options = {}) {
         ].filter(Boolean).join(" ");
         const rowItems = emptyRows.includes(row)
           ? ""
-          : `${jan ? '<span class="jan"></span>' : ""}<span class="item ${color}"></span><span class="item ${color}"></span><span class="item ${color}"></span>`;
+          : janBelow
+            ? Array.from({ length: 3 }, () => `<span class="item-stack"><span class="item ${color}"></span><span class="jan"></span></span>`).join("")
+            : `${jan ? '<span class="jan"></span>' : ""}<span class="item ${color}"></span><span class="item ${color}"></span><span class="item ${color}"></span>`;
 
         return `
           <div class="shelf-row ${rowClass}">
@@ -957,7 +1016,6 @@ const scenes = [
         <div class="talk right">この棚は<br>全部で4エリア？</div>
         <div class="arrow left">←</div>
         <div class="arrow right">→</div>
-        <div class="caption late2">左から入ってきて、エリアを確認して戻る</div>
       </div>
     `
   },
@@ -965,10 +1023,10 @@ const scenes = [
     title: "後発がエリア受信してカウント",
     body: `
       <div class="board scene2">
+        <div class="top-note late">後発が棚の情報を受信</div>
         ${shelf(4, { labels: false })}
         ${img("denpa.png", "denpa", "電波")}
         ${img("kouhatsu.png", "character kouhatsu enter-right", "後発担当者")}
-        <div class="caption late2">後発が入ってきて、棚の情報を受け取る</div>
       </div>
     `
   },
@@ -977,10 +1035,10 @@ const scenes = [
     titleClass: "big",
     body: `
       <div class="board scene3">
+        <div class="top-note late">登録と実際の棚が合っていない</div>
         ${shelf(4, { labels: false })}
         <div class="warning pop">!</div>
         ${img("fuicchi.png", "fuicchi", "不一致表示")}
-        <div class="caption late">登録と実際の棚が合っていない</div>
       </div>
     `
   },
@@ -988,9 +1046,11 @@ const scenes = [
     title: "もう一段、エリア数が間違っていないか数える",
     body: `
       <div class="board scene4">
-        ${shelf(4, { count: true })}
+        <div class="top-note late">エリア数が間違っていないか数え直す</div>
+        <div class="big-count">
+          ${shelf(4, { count: true })}
+        </div>
         ${img("kouhatsu2.png", "character kouhatsu tall stand-right", "後発担当者")}
-        <div class="caption late3">順番に数字を出して、4段あることを確認</div>
       </div>
     `
   },
@@ -998,7 +1058,7 @@ const scenes = [
     title: "各エリアの先頭JANコードを見比べる",
     body: `
       <div class="board scene5">
-        ${shelf(4, { jan: true })}
+        ${shelf(4, { janBelow: true })}
         ${registerBox()}
         <div class="caption late2">実棚の先頭JANと、登録上の先頭JANを見る</div>
       </div>
