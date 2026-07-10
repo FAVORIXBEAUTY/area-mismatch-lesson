@@ -80,6 +80,25 @@ button {
   font-size: clamp(1.48rem, 7vw, 2.08rem);
 }
 
+.headline.danger-title {
+  min-height: 68px;
+  padding-top: 0;
+  display: grid;
+  place-items: center;
+  background: #ff1212;
+  color: white;
+  font-size: clamp(1.3rem, 5.8vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.scene7 .caption {
+  top: 18px;
+}
+
+.scene7 .comparison {
+  top: 96px;
+}
+
 .headline .sub {
   display: block;
   color: var(--muted);
@@ -1407,6 +1426,7 @@ const scenes = [
   },
   {
     title: "修正失敗例",
+    titleClass: "danger-title",
     body: `
       <div class="board scene7">
         <div class="caption late">間違えた所から直接次の段に切り替える</div>
