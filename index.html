@@ -124,6 +124,7 @@ button {
   overflow: hidden;
 }
 
+.scene1,
 .scene2,
 .scene3,
 .scene4,
@@ -1054,9 +1055,10 @@ function group(color = "green") {
 
 const scenes = [
   {
-    title: "先発の人が準備段階でエリアを登録する",
+    title: "先発の人が準備段階で<br>各棚に何エリアあるか登録する",
     body: `
       <div class="board scene1">
+        <div class="top-note late">エリア登録</div>
         ${shelf(4, { labels: false })}
         ${img("senpatsu.png", "character senpatsu static-left", "先発担当者")}
         <div class="talk right">この棚は<br>全部で4エリア！</div>
@@ -1064,7 +1066,7 @@ const scenes = [
     `
   },
   {
-    title: "後発がエリア受信してカウント",
+    title: "エリア情報を端末で受信し<br>その情報をもとにカウントを開始",
     body: `
       <div class="board scene2">
         <div class="top-note late">後発が棚の情報を受信</div>
@@ -1079,7 +1081,7 @@ const scenes = [
     titleClass: "big",
     body: `
       <div class="board scene3">
-        <div class="top-note late">登録と実際の棚が合っていない</div>
+        <div class="top-note late">エリア情報と数えた棚数が合っていない</div>
         ${shelf(4, { labels: false })}
         <div class="warning pop">!</div>
         ${img("fuicchi.png", "fuicchi", "不一致表示")}
@@ -1105,7 +1107,7 @@ const scenes = [
       <div class="board scene5">
         ${shelf(4, { leadingJanBelow: true })}
         ${registerBox()}
-        <div class="top-note late">実棚の先頭JANと、登録上の<br>先頭JANを見る</div>
+        <div class="top-note late">実棚の先頭JANと<br>カウント情報の先頭JANを見比べる</div>
       </div>
     `
   },
