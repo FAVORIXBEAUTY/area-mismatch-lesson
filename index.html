@@ -91,6 +91,17 @@ button {
   line-height: 1.2;
 }
 
+.headline.basic-title {
+  min-height: 68px;
+  padding-top: 0;
+  display: grid;
+  place-items: center;
+  background: #2563eb;
+  color: white;
+  font-size: clamp(1.3rem, 5.8vw, 1.75rem);
+  line-height: 1.2;
+}
+
 .scene7 .caption {
   top: 18px;
 }
@@ -589,11 +600,84 @@ button {
   animation: janZoom 1s ease 0.7s forwards;
 }
 
+.scene9 .scene9-jan-row .jan {
+  animation: janZoom 1s ease 0.7s forwards;
+}
+
+.scene10 .scene10-jan-row .jan {
+  animation: janZoom 1s ease 0.7s forwards;
+}
+
 .scene7 .mixed-items .item:nth-child(4) {
   position: relative;
   z-index: 6;
   transform-origin: center;
   animation: cardZoom 1s ease 0.7s forwards;
+}
+
+.scene9 .scene9-focus-green {
+  position: relative;
+  z-index: 6;
+  transform-origin: center;
+  animation: scene9GreenFocusMove 2.05s ease 0.7s forwards;
+}
+
+.scene9 .scene9-move-green:not(.scene9-focus-green) {
+  position: relative;
+  z-index: 6;
+  transform-origin: center;
+  animation: scene9GreenMove 0.8s ease 1.9s forwards;
+}
+
+.scene10 .scene10-focus-pink {
+  position: relative;
+  z-index: 8;
+  transform-origin: center;
+  animation: scene10PinkFocusMove 2.05s ease 0.7s forwards;
+}
+
+.scene10 .scene10-move-pink:not(.scene10-focus-pink) {
+  position: relative;
+  z-index: 7;
+  transform-origin: center;
+  animation: scene10PinkMove 0.8s ease 1.9s forwards;
+}
+
+.scene10 .scene10-thin-yellow {
+  animation: scene10LateOut 0.2s ease 2.9s forwards;
+}
+
+.scene10-actual-source {
+  animation: scene10LateOut 0.2s ease 2.9s forwards;
+}
+
+.scene7-final-callout {
+  position: absolute;
+  right: 42px;
+  top: 324px;
+  z-index: 10;
+  width: 104px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.9);
+  animation: calloutIn 0.4s ease 1.85s forwards;
+  pointer-events: none;
+}
+
+.scene7-hand {
+  width: 86px;
+  display: block;
+  margin-left: -8px;
+  filter: drop-shadow(0 8px 10px rgba(15, 23, 42, 0.14));
+}
+
+.hand-text {
+  margin: 0 0 -6px 0;
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.12;
+  font-weight: 900;
+  text-align: center;
+  transform: rotate(-16deg);
 }
 
 .scene5 .shelf-row:nth-child(1) .jan {
@@ -669,7 +753,10 @@ button {
 }
 
 .scene6 .comparison,
-.scene7 .comparison {
+.scene7 .comparison,
+.scene8 .comparison,
+.scene9 .comparison,
+.scene10 .comparison {
   left: 18px;
   right: 18px;
   top: 82px;
@@ -677,35 +764,52 @@ button {
 }
 
 .scene6 .shelf,
-.scene7 .shelf {
+.scene7 .shelf,
+.scene8 .shelf,
+.scene9 .shelf,
+.scene10 .shelf {
   width: 154px;
 }
 
 .scene6 .shelf.small,
-.scene7 .shelf.small {
+.scene7 .shelf.small,
+.scene8 .shelf.small,
+.scene9 .shelf.small,
+.scene10 .shelf.small {
   width: 150px;
 }
 
 .scene6 .shelf-row,
-.scene7 .shelf-row {
+.scene7 .shelf-row,
+.scene8 .shelf-row,
+.scene9 .shelf-row,
+.scene10 .shelf-row {
   height: 64px;
   gap: 4px;
   padding-left: 28px;
 }
 
 .scene6 .shelf.small .shelf-row,
-.scene7 .shelf.small .shelf-row {
+.scene7 .shelf.small .shelf-row,
+.scene8 .shelf.small .shelf-row,
+.scene9 .shelf.small .shelf-row,
+.scene10 .shelf.small .shelf-row {
   height: 64px;
   padding-left: 28px;
 }
 
 .scene6 .item,
-.scene7 .item {
+.scene7 .item,
+.scene8 .item,
+.scene9 .item,
+.scene10 .item {
   width: 24px;
   height: 29px;
 }
 
-.scene6 .row-num {
+.scene6 .row-num,
+.scene9 .row-num,
+.scene10 .row-num {
   left: 4px;
   width: 22px;
   height: 22px;
@@ -738,7 +842,10 @@ button {
 }
 
 .scene6 .mini-title,
-.scene7 .mini-title {
+.scene7 .mini-title,
+.scene8 .mini-title,
+.scene9 .mini-title,
+.scene10 .mini-title {
   min-height: 32px;
   margin-bottom: 6px;
   font-size: 0.95rem;
@@ -750,6 +857,167 @@ button {
 
 .scene6-registered .mixed-row {
   overflow: visible;
+}
+
+.scene9-registered,
+.scene9-registered .mixed-row {
+  overflow: visible;
+  --scene9-row-move: 64px;
+}
+
+.scene10-registered,
+.scene10-registered .mixed-row {
+  overflow: visible;
+  --scene10-row-move: 64px;
+}
+
+.scene10-registered .shelf-row {
+  overflow: visible;
+}
+
+.scene9-registered .shelf-row {
+  overflow: visible;
+}
+
+.empty-count-row {
+  position: relative;
+  background: #f8fafc;
+}
+
+.scene9-row-four-num {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.65);
+  animation: scene9FourNumIn 0.35s ease 1.9s forwards;
+}
+
+.scene10-target-row {
+  position: relative;
+}
+
+.scene10-final-yellow {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-50%);
+  animation: scene10LateIn 0.2s ease 2.9s forwards;
+  pointer-events: none;
+}
+
+.scene10-final-pink {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  z-index: 9;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-50%);
+  animation: scene10FinalPinkIn 0.2s ease 2.62s forwards;
+  pointer-events: none;
+}
+
+.scene10-jan-row {
+  position: relative;
+}
+
+.scene10-final-actual-pink {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-50%);
+  animation: scene10LateIn 0.2s ease 2.9s forwards;
+  pointer-events: none;
+}
+
+.scene8-registered,
+.scene8-registered .shelf-row,
+.scene8-registered .mixed-row {
+  overflow: visible;
+}
+
+.scene8-source-mix {
+  background: transparent;
+}
+
+.scene8-recover-yellow {
+  position: relative;
+  z-index: 7;
+  transform-origin: left center;
+  animation: scene8YellowRecover 1s ease 1.9s forwards;
+}
+
+.scene8-recover-yellow.y1 {
+  --yellow-shift: 0px;
+}
+
+.scene8-recover-yellow.y2 {
+  --yellow-shift: 15px;
+}
+
+.scene8-recover-yellow.y3 {
+  --yellow-shift: 30px;
+}
+
+.scene8-final-yellow {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  z-index: 9;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-50%);
+  animation: scene8FinalYellowIn 0.18s ease 2.72s forwards;
+  pointer-events: none;
+}
+
+.scene8-moving-pink {
+  position: relative;
+  z-index: 8;
+  transform-origin: center;
+  animation: scene8PinkToThird 1.25s ease 0.65s forwards;
+}
+
+.scene8-target-row {
+  position: relative;
+}
+
+.scene8-green {
+  position: relative;
+  z-index: 5;
+  transform-origin: left center;
+  animation: scene8GreenToThin 1.25s ease 0.65s forwards;
+}
+
+.scene8-green.g1 {
+  --green-shift: 51px;
+}
+
+.scene8-green.g2 {
+  --green-shift: 36px;
+}
+
+.scene8-green.g3 {
+  --green-shift: 21px;
+}
+
+.scene8-alert {
+  right: 28px;
+  bottom: 84px;
+  z-index: 12;
+  opacity: 0;
+  transform: scale(0.5);
+  animation:
+    scene8AlertIn 0.25s ease 3s forwards,
+    scene8AlertBuzz 0.42s ease-in-out 3.22s 2;
 }
 
 .mixed-items {
@@ -1039,15 +1307,220 @@ button {
 }
 
 @keyframes cardZoom {
-  0%,
-  100% {
+  0% {
     box-shadow: none;
     transform: scale(1);
+  }
+  100% {
+    box-shadow: none;
+    transform: scale(1.22);
   }
   45%,
   75% {
     box-shadow: 0 0 0 6px rgba(219, 39, 119, 0.22);
     transform: scale(1.65);
+  }
+}
+
+@keyframes scene9GreenFocus {
+  0% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  45%,
+  75% {
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.22);
+    transform: scale(1.65);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14);
+    transform: scale(1.18);
+  }
+}
+
+@keyframes scene9GreenFocusMove {
+  0% {
+    box-shadow: none;
+    transform: translateY(0) scale(1);
+  }
+  22%,
+  43% {
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.22);
+    transform: translateY(0) scale(1.65);
+  }
+  58% {
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14);
+    transform: translateY(0) scale(1.18);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14);
+    transform: translateY(var(--scene9-row-move)) scale(1.18);
+  }
+}
+
+@keyframes scene9GreenMove {
+  to {
+    transform: translateY(var(--scene9-row-move));
+  }
+}
+
+@keyframes scene9FourNumIn {
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes scene10PinkFocusMove {
+  0% {
+    box-shadow: none;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  22%,
+  43% {
+    box-shadow: 0 0 0 6px rgba(219, 39, 119, 0.22);
+    opacity: 1;
+    transform: translateY(0) scale(1.65);
+  }
+  58% {
+    box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.14);
+    opacity: 1;
+    transform: translateY(0) scale(1.18);
+  }
+  90% {
+    box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.14);
+    opacity: 1;
+    transform: translateY(var(--scene10-row-move)) scale(1.18);
+  }
+  100% {
+    box-shadow: none;
+    opacity: 0;
+    transform: translateY(var(--scene10-row-move)) scale(1.18);
+  }
+}
+
+@keyframes scene10PinkMove {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(var(--scene10-row-move));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--scene10-row-move));
+  }
+}
+
+@keyframes scene10FinalPinkIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scene10LateOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes scene10LateIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes calloutIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes scene8PinkToThird {
+  0% {
+    transform: translate(0, 0);
+  }
+  55% {
+    transform: translate(-39px, 66px) scale(1.15);
+  }
+  100% {
+    transform: translate(-39px, 64px);
+  }
+}
+
+@keyframes scene8GreenToThin {
+  0% {
+    transform: translateX(0) scale(1, 1);
+  }
+  55% {
+    transform: translateX(calc(var(--green-shift) - 3px)) scale(0.52, 1.16);
+  }
+  100% {
+    transform: translateX(var(--green-shift)) scale(0.4, 1.2);
+  }
+}
+
+@keyframes scene8PinkToThirdSmall {
+  0% {
+    transform: translate(0, 0);
+  }
+  55% {
+    transform: translate(-36px, 60px) scale(1.15);
+  }
+  100% {
+    transform: translate(-36px, 58px);
+  }
+}
+
+@keyframes scene8YellowRecover {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1, 1);
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(var(--yellow-shift)) scale(2.4, 0.88);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--yellow-shift)) scale(2.4, 0.88);
+  }
+}
+
+@keyframes scene8FinalYellowIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scene8AlertIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scene8AlertBuzz {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  18% {
+    transform: translate(-3px, 1px) rotate(-5deg) scale(1.04);
+  }
+  36% {
+    transform: translate(3px, -1px) rotate(5deg) scale(1.04);
+  }
+  54% {
+    transform: translate(-2px, -1px) rotate(-4deg) scale(1.02);
+  }
+  72% {
+    transform: translate(2px, 1px) rotate(4deg) scale(1.02);
   }
 }
 
@@ -1133,32 +1606,50 @@ button {
   }
 
   .scene6 .comparison,
-  .scene7 .comparison {
+  .scene7 .comparison,
+  .scene8 .comparison,
+  .scene9 .comparison,
+  .scene10 .comparison {
     left: 10px;
     right: 10px;
     gap: 12px;
   }
 
   .scene6 .shelf,
-  .scene7 .shelf {
+  .scene7 .shelf,
+  .scene8 .shelf,
+  .scene9 .shelf,
+  .scene10 .shelf {
     width: 142px;
   }
 
   .scene6 .shelf.small,
-  .scene7 .shelf.small {
+  .scene7 .shelf.small,
+  .scene8 .shelf.small,
+  .scene9 .shelf.small,
+  .scene10 .shelf.small {
     width: 138px;
   }
 
   .scene6 .shelf-row,
   .scene6 .shelf.small .shelf-row,
   .scene7 .shelf-row,
-  .scene7 .shelf.small .shelf-row {
+  .scene7 .shelf.small .shelf-row,
+  .scene8 .shelf-row,
+  .scene8 .shelf.small .shelf-row,
+  .scene9 .shelf-row,
+  .scene9 .shelf.small .shelf-row,
+  .scene10 .shelf-row,
+  .scene10 .shelf.small .shelf-row {
     height: 58px;
     padding-left: 26px;
   }
 
   .scene6 .item,
-  .scene7 .item {
+  .scene7 .item,
+  .scene8 .item,
+  .scene9 .item,
+  .scene10 .item {
     width: 21px;
     height: 27px;
   }
@@ -1187,6 +1678,90 @@ button {
     max-width: 9px;
     min-height: 31px;
     max-height: 31px;
+  }
+
+  .scene8-moving-pink {
+    animation-name: scene8PinkToThirdSmall;
+  }
+
+  .scene8-recover-yellow {
+    animation-name: scene8YellowRecoverSmall;
+  }
+
+  .scene8-recover-yellow.y2 {
+    --yellow-shift: 13px;
+  }
+
+  .scene8-recover-yellow.y3 {
+    --yellow-shift: 26px;
+  }
+
+  .scene8-final-yellow {
+    left: 26px;
+  }
+
+  .scene9-registered,
+  .scene9-registered .mixed-row {
+    --scene9-row-move: 58px;
+  }
+
+  .scene10-registered,
+  .scene10-registered .mixed-row {
+    --scene10-row-move: 58px;
+  }
+
+  .scene10-final-pink {
+    left: 26px;
+  }
+
+  .scene10-final-yellow,
+  .scene10-final-actual-pink {
+    left: 26px;
+  }
+
+  .scene8-alert {
+    right: 18px;
+    bottom: 78px;
+    width: 52px;
+    height: 52px;
+    font-size: 1.95rem;
+  }
+
+  .scene8-green.g1 {
+    --green-shift: 48px;
+  }
+
+  .scene8-green.g2 {
+    --green-shift: 35px;
+  }
+
+  .scene8-green.g3 {
+    --green-shift: 22px;
+  }
+
+  .scene7-final-callout {
+    right: 36px;
+    top: 304px;
+    width: 96px;
+  }
+
+  .scene7-hand {
+    width: 78px;
+  }
+}
+
+@keyframes scene8YellowRecoverSmall {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1, 1);
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(var(--yellow-shift)) scale(2.33, 0.87);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--yellow-shift)) scale(2.33, 0.87);
   }
 }
 
@@ -1319,6 +1894,89 @@ function scene6RegisteredShelf() {
   `;
 }
 
+function scene9RegisteredShelf() {
+  return `
+    <div class="shelf small scene9-registered">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row mixed-row">
+        <span class="row-num">2</span>
+        <div class="mixed-items">
+          <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+          <span class="item pink"></span><span class="item pink"></span><span class="item pink"></span>
+        </div>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">3</span>
+        <span class="item green scene9-focus-green scene9-move-green g1"></span><span class="item green scene9-move-green g2"></span><span class="item green scene9-move-green g3"></span>
+      </div>
+      <div class="shelf-row empty-count-row">
+        <span class="row-num scene9-row-four-num">4</span>
+      </div>
+    </div>
+  `;
+}
+
+function scene10RegisteredShelf() {
+  return `
+    <div class="shelf small scene10-registered">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row mixed-row">
+        <span class="row-num">2</span>
+        <div class="mixed-items scene10-source-mix">
+          <span class="item yellow scene10-thin-yellow"></span><span class="item yellow scene10-thin-yellow"></span><span class="item yellow scene10-thin-yellow"></span>
+          <span class="item pink scene10-focus-pink scene10-move-pink p1"></span><span class="item pink scene10-move-pink p2"></span><span class="item pink scene10-move-pink p3"></span>
+        </div>
+        <div class="scene10-final-yellow">
+          <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+        </div>
+      </div>
+      <div class="shelf-row empty-count-row scene10-target-row">
+        <span class="row-num">3</span>
+        <div class="scene10-final-pink">
+          <span class="item pink"></span><span class="item pink"></span><span class="item pink"></span>
+        </div>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">4</span>
+        <span class="item green"></span><span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
+function scene10ActualShelf() {
+  return `
+    <div class="shelf">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">2</span>
+        <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+      </div>
+      <div class="shelf-row scene10-jan-row">
+        <span class="row-num">3</span>
+        <span class="item-stack scene10-actual-source"><span class="item pink"></span><span class="jan"></span></span>
+        <span class="item pink scene10-actual-source"></span><span class="item pink scene10-actual-source"></span>
+        <div class="scene10-final-actual-pink">
+          <span class="item pink"></span><span class="item pink"></span><span class="item pink"></span>
+        </div>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">4</span>
+        <span class="item green"></span><span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
 function scene7ActualShelf() {
   return `
     <div class="shelf">
@@ -1338,6 +1996,55 @@ function scene7ActualShelf() {
       <div class="shelf-row">
         <span class="row-num">4</span>
         <span class="item green"></span><span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
+function scene9ActualShelf() {
+  return `
+    <div class="shelf">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">2</span>
+        <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">3</span>
+        <span class="item pink"></span><span class="item pink"></span><span class="item pink"></span>
+      </div>
+      <div class="shelf-row scene9-jan-row">
+        <span class="row-num">4</span>
+        <span class="item-stack"><span class="item green"></span><span class="jan"></span></span>
+        <span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
+function scene8RegisteredShelf() {
+  return `
+    <div class="shelf small scene8-registered">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row mixed-row scene8-source-row">
+        <span class="row-num">2</span>
+        <div class="mixed-items scene8-source-mix">
+          <span class="item yellow scene8-recover-yellow y1"></span><span class="item yellow scene8-recover-yellow y2"></span><span class="item yellow scene8-recover-yellow y3"></span>
+          <span class="item pink scene8-moving-pink p1"></span><span class="item pink scene8-moving-pink p2"></span><span class="item pink scene8-moving-pink p3"></span>
+        </div>
+        <div class="scene8-final-yellow">
+          <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+        </div>
+      </div>
+      <div class="shelf-row scene8-target-row">
+        <span class="row-num">3</span>
+        <span class="item green scene8-green g1"></span><span class="item green scene8-green g2"></span><span class="item green scene8-green g3"></span>
       </div>
     </div>
   `;
@@ -1434,22 +2141,24 @@ const scenes = [
           scene7ActualShelf(),
           scene6RegisteredShelf()
         )}
+        <div class="scene7-final-callout">
+          <div class="hand-text">ここから<br>3段目だ！</div>
+          ${img("yubisashi.png", "scene7-hand", "指差し")}
+        </div>
       </div>
     `
   },
   {
-    title: "あ、元は3段目にくっついちゃった！",
-    subtitle: "2段目にあった商品が、3段目の上へスライド",
-    sceneClass: "shake",
+    title: "修正失敗例",
+    titleClass: "danger-title",
     body: `
       <div class="board scene8">
+        <div class="caption late">あ、今度は3段目がくっついちゃった！</div>
         ${compareLayout(
-          shelf(4, { colors: { 2: "yellow", 3: "pink" }, emptyRows: [1, 4] }),
-          dataShelf(3, { colors: { 2: "yellow", 3: "pink" }, emptyRows: [1] })
+          scene7ActualShelf(),
+          scene8RegisteredShelf()
         )}
-        ${group("yellow")}
-        <div class="warning pop" style="right:18px;top:72px;">!</div>
-        <div class="caption late2">修正した3段目と、元の登録が重なってしまう</div>
+        <div class="warning scene8-alert">!</div>
       </div>
     `
   },
@@ -1480,6 +2189,35 @@ const scenes = [
     `
   }
 ];
+
+scenes[8] = {
+  title: "修正基本例",
+  titleClass: "basic-title",
+  body: `
+    <div class="board scene9">
+      <div class="caption late">先に下の棚から正しく揃えていきます</div>
+      ${compareLayout(
+        `<div class="shelf-wrap">${scene9ActualShelf()}</div>`,
+        scene9RegisteredShelf()
+      )}
+    </div>
+  `
+};
+
+scenes[9] = {
+  title: "修正基本例",
+  titleClass: "basic-title",
+  body: `
+    <div class="board scene10">
+      <div class="caption late">そして本来3段目の商品を、3段目に移動させる</div>
+      ${compareLayout(
+        `<div class="shelf-wrap">${scene10ActualShelf()}</div>`,
+        scene10RegisteredShelf()
+      )}
+      <div class="result-rule">カウント棚が実棚より少ない場合、下から修正する</div>
+    </div>
+  `
+};
 
 function renderScene() {
   const scene = scenes[currentScene];
