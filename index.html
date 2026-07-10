@@ -706,14 +706,19 @@ button {
   grid-template-columns: repeat(6, 10px);
   gap: 3px;
   padding: 8px 9px;
-  border: 3px solid var(--red);
+  border: 0;
   background: white;
 }
 
 .mixed-items .item {
   width: 10px;
   height: 33px;
+  min-width: 10px;
+  max-width: 10px;
+  min-height: 33px;
+  max-height: 33px;
   border-radius: 3px;
+  flex: 0 0 auto;
 }
 
 .mixed-items::before,
@@ -1101,6 +1106,10 @@ button {
   .mixed-items .item {
     width: 9px;
     height: 31px;
+    min-width: 9px;
+    max-width: 9px;
+    min-height: 31px;
+    max-height: 31px;
   }
 }
 
