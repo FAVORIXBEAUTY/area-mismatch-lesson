@@ -469,15 +469,15 @@ button {
 }
 
 .scene1 .scene1-talk {
-  right: 42px;
+  right: 92px;
 }
 
-.scene2 .scene2-talk {
+.scene4 .scene4-talk {
   left: 142px;
   top: 84px;
-  max-width: 150px;
-  padding: 8px 10px;
-  font-size: 0.88rem;
+  max-width: 168px;
+  padding: 10px 12px;
+  font-size: 1rem;
 }
 
 .scene2 .shelf {
@@ -629,20 +629,11 @@ button {
 }
 
 .wrong-connect {
-  position: absolute;
-  left: 46%;
-  top: 126px;
-  width: 48px;
-  height: 66px;
-  border-top: 4px dashed var(--red);
-  border-right: 4px dashed var(--red);
-  transform: rotate(10deg);
-  opacity: 0;
-  animation: fadeUp 0.4s ease 1.5s forwards;
+  display: none;
 }
 
 .scene6 .comparison {
-  top: 64px;
+  top: 72px;
   gap: 18px;
 }
 
@@ -651,17 +642,17 @@ button {
 }
 
 .scene6 .shelf.small {
-  width: 138px;
+  width: 154px;
 }
 
 .scene6 .shelf-row {
-  height: 58px;
+  height: 66px;
   gap: 4px;
   padding-left: 28px;
 }
 
 .scene6 .shelf.small .shelf-row {
-  height: 58px;
+  height: 66px;
   padding-left: 28px;
 }
 
@@ -675,12 +666,12 @@ button {
 }
 
 .scene6 .connect-box {
-  top: 58px;
-  height: 116px;
+  top: 66px;
+  height: 132px;
 }
 
 .scene6 .caption {
-  top: 4px;
+  top: 8px;
 }
 
 .color-legend {
@@ -1130,7 +1121,6 @@ const scenes = [
         ${shelf(4, { labels: false })}
         ${img("denpa.png", "denpa", "電波")}
         ${img("kouhatsu.png", "character kouhatsu static-right", "後発担当者")}
-        <div class="talk scene2-talk">全部で<br>4エリアだぞ！</div>
       </div>
     `
   },
@@ -1156,6 +1146,7 @@ const scenes = [
           ${shelf(4, { count: true })}
         </div>
         ${img("kouhatsu2.png", "character kouhatsu tall stand-right", "後発担当者")}
+        <div class="talk scene4-talk">全部で<br>4エリアだぞ！</div>
       </div>
     `
   },
@@ -1178,7 +1169,7 @@ const scenes = [
           dataShelf(3, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 6, 3: 3 } }),
           `<div class="wrong-connect"></div>`
         )}
-        <div class="caption late">実際の棚と登録上の棚で、つながり方がズレている</div>
+        <div class="caption late">実際の棚と登録上の棚で、<br>2段目と3段目をつないで登録していた</div>
       </div>
     `
   },
