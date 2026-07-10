@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>エリア不一致修正ミニ教材</title>
+  <style>
+:root {
+  --bg: #f5f7fa;
+  --text: #172033;
+  --muted: #667085;
+  --line: #c8d0dc;
+  --blue: #2563eb;
+  --blue-soft: #dbeafe;
+  --red: #dc2626;
+  --red-soft: #fee2e2;
+  --green: #16803c;
+  --green-soft: #dcfce7;
+  --shelf: #334155;
+  --wood: #e8eef7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.lesson {
+  min-height: 100svh;
+  padding: 18px 14px 96px;
+  display: flex;
+  justify-content: center;
+}
+
+.scene {
+  width: min(100%, 430px);
+  min-height: calc(100svh - 114px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
+  align-content: start;
+  touch-action: manipulation;
+}
+
+.scene.shake {
+  animation: shake 0.5s ease-in-out 0.2s;
+}
+
+.headline {
+  margin: 0;
+  min-height: 76px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+  font-size: clamp(1.45rem, 7vw, 2.1rem);
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.headline.small {
+  font-size: clamp(1.22rem, 5.7vw, 1.65rem);
+}
+
+.headline .subline {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7em;
+  font-weight: 700;
+}
+
+.headline .late,
+.headline .late2,
+.headline .late3 {
+  opacity: 0;
+  animation: fadeUp 0.45s ease forwards;
+}
+
+.headline .late {
+  animation-delay: 1.15s;
+}
+
+.headline .late2 {
+  animation-delay: 2.2s;
+}
+
+.headline .late3 {
+  animation-delay: 3.25s;
+}
+
+.stage {
+  min-height: 390px;
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.panel-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.mini-title {
+  margin: 0 0 8px;
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.mini-title span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.shelf-wrap,
+.data-wrap {
+  width: 100%;
+  position: relative;
+}
+
+.shelf,
+.data-stack {
+  width: 100%;
+  border: 3px solid var(--shelf);
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.shelf.big {
+  width: min(72vw, 260px);
+}
+
+.shelf-row,
+.data-row {
+  height: 64px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 8px 7px 34px;
+  border-bottom: 3px solid var(--shelf);
+  background: linear-gradient(#fff, var(--wood));
+}
+
+.shelf.big .shelf-row {
+  height: 70px;
+}
+
+.shelf-row:last-child,
+.data-row:last-child {
+  border-bottom: 0;
+}
+
+.data-row {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.row-label {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 800;
+  writing-mode: vertical-rl;
+}
+
+.item {
+  width: 31px;
+  height: 34px;
+  border: 2px solid #64748b;
+  border-radius: 5px;
+  background: #e0f2fe;
+  box-shadow: inset 0 -8px 0 rgba(37, 99, 235, 0.12);
+}
+
+.item.green {
+  background: #dcfce7;
+  border-color: #16a34a;
+}
+
+.item.red {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.item.selected {
+  animation: selectPulse 1.2s ease-in-out infinite;
+}
+
+.barcode {
+  width: 42px;
+  height: 32px;
+  border: 2px solid #94a3b8;
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, #1f2937 0 7%, transparent 7% 13%, #1f2937 13% 19%, transparent 19% 31%, #1f2937 31% 36%, transparent 36% 47%, #1f2937 47% 58%, transparent 58% 67%, #1f2937 67% 74%, transparent 74% 83%, #1f2937 83% 90%, transparent 90%),
+    white;
+}
+
+.shelf-row.scan-a .barcode:first-of-type {
+  animation: janFlash 1s ease 0.4s;
+}
+
+.shelf-row.scan-b .barcode:first-of-type {
+  animation: janFlash 1s ease 1.45s;
+}
+
+.warning {
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: var(--red);
+  border-radius: 50%;
+  font-size: 2.4rem;
+  font-weight: 900;
+  box-shadow: 0 10px 22px rgba(220, 38, 38, 0.25);
+}
+
+.warning.pop {
+  position: absolute;
+  right: 18px;
+  top: 114px;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: popIn 0.45s ease 0.8s forwards;
+}
+
+.connection {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 125px;
+  height: 132px;
+  border: 5px solid var(--green);
+  border-radius: 14px;
+  opacity: 0;
+  pointer-events: none;
+  animation: connectShow 0.7s ease 2.65s forwards;
+}
+
+.bridge-label {
+  position: absolute;
+  right: 8px;
+  top: 182px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 2.95s forwards;
+}
+
+.move-stage {
+  width: 100%;
+  min-height: 410px;
+  position: relative;
+}
+
+.moving-item {
+  position: absolute;
+  z-index: 4;
+  width: 36px;
+  height: 38px;
+  left: 53px;
+  top: 206px;
+  border: 2px solid #16a34a;
+  border-radius: 5px;
+  background: #dcfce7;
+  animation: moveToData 1.25s ease 1s forwards;
+}
+
+.ghost-target {
+  animation: targetGlow 1.25s ease 0.8s;
+}
+
+.error-box {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.error-word {
+  color: var(--red);
+  font-size: clamp(3rem, 18vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0;
+  animation: popIn 0.35s ease 0.55s forwards;
+}
+
+.error-note {
+  padding: 10px 14px;
+  border: 3px solid var(--red);
+  border-radius: 8px;
+  background: var(--red-soft);
+  color: var(--red);
+  font-weight: 900;
+  opacity: 0;
+  animation: fadeUp 0.4s ease 1.4s forwards;
+}
+
+.merge-stage {
+  width: 100%;
+  min-height: 420px;
+  position: relative;
+}
+
+.merge-item {
+  position: absolute;
+  z-index: 4;
+  width: 38px;
+  height: 40px;
+  border: 2px solid #64748b;
+  border-radius: 6px;
+}
+
+.merge-item.third {
+  left: 56px;
+  top: 192px;
+  background: #dcfce7;
+  border-color: #16a34a;
+  animation: mergeThird 1.45s ease 2.15s forwards;
+}
+
+.merge-item.fourth {
+  left: 96px;
+  top: 276px;
+  background: #fee2e2;
+  border-color: #dc2626;
+  animation: mergeFourth 1.45s ease 2.15s forwards;
+}
+
+.data-row.merge-target {
+  outline: 4px solid var(--red);
+  outline-offset: -6px;
+  background: #fff1f2;
+}
+
+.order-stage {
+  width: 100%;
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+}
+
+.order-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.shelf-row.fix-first {
+  animation: fixGlow 1.2s ease 0.7s infinite;
+}
+
+.fix-flow {
+  display: grid;
+  gap: 9px;
+  justify-items: center;
+  opacity: 0;
+  animation: fadeUp 0.55s ease 2.15s forwards;
+}
+
+.fix-step {
+  width: min(44vw, 160px);
+  padding: 12px 8px;
+  border: 3px solid var(--green);
+  border-radius: 8px;
+  background: var(--green-soft);
+  color: var(--green);
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.down-arrow {
+  color: var(--green);
+  font-size: 1.9rem;
+  font-weight: 900;
+}
+
+.rule {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 8px;
+  background: #0f766e;
+  color: white;
+  text-align: center;
+  font-size: clamp(1.35rem, 6.5vw, 1.9rem);
+  line-height: 1.25;
+  font-weight: 900;
+  opacity: 0;
+  animation: fadeUp 0.55s ease 3.15s forwards;
+}
+
+.controls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(245, 247, 250, 0.96);
+  border-top: 1px solid #d8dee8;
+  backdrop-filter: blur(8px);
+}
+
+.controls button {
+  min-height: 52px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.controls button.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: white;
+}
+
+.controls button:disabled {
+  opacity: 0.45;
+}
+
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes janFlash {
+  0%,
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  45%,
+  70% {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.24);
+    transform: scale(1.12);
+  }
+}
+
+@keyframes connectShow {
+  from {
+    opacity: 0;
+    transform: scaleX(0.72);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes selectPulse {
+  50% {
+    box-shadow: 0 0 0 7px rgba(22, 128, 60, 0.22);
+    transform: scale(1.08);
+  }
+}
+
+@keyframes moveToData {
+  to {
+    left: calc(50% + 83px);
+    top: 188px;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes targetGlow {
+  50% {
+    background: var(--green-soft);
+    outline: 4px solid var(--green);
+    outline-offset: -6px;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes mergeThird {
+  to {
+    left: calc(50% + 70px);
+    top: 178px;
+  }
+}
+
+@keyframes mergeFourth {
+  to {
+    left: calc(50% + 88px);
+    top: 190px;
+  }
+}
+
+@keyframes fixGlow {
+  50% {
+    background: var(--green-soft);
+    box-shadow: inset 0 0 0 4px var(--green);
+  }
+}
+
+@media (max-width: 360px) {
+  .lesson {
+    padding-inline: 10px;
+  }
+
+  .scene {
+    gap: 10px;
+  }
+
+  .shelf-row,
+  .data-row {
+    height: 58px;
+    padding-left: 29px;
+  }
+
+  .item {
+    width: 25px;
+  }
+
+  .barcode {
+    width: 35px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <main class="lesson" aria-live="polite">
+    <section id="scene" class="scene"></section>
+  </main>
+
+  <nav class="controls" aria-label="教材の操作">
+    <button id="backBtn" type="button">戻る</button>
+    <button id="nextBtn" type="button" class="primary">次へ</button>
+    <button id="restartBtn" type="button">最初から</button>
+  </nav>
+
+  <script>
+const sceneEl = document.getElementById("scene");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
+const restartBtn = document.getElementById("restartBtn");
+
+let currentScene = 0;
+const lastScene = 6;
+
+function shelf(rows, options = {}) {
+  const bigClass = options.big ? " big" : "";
+  const rowClasses = options.rowClasses || {};
+  const withBarcodes = options.barcodes || false;
+  const selectedRow = options.selectedRow || 0;
+  const colorRows = options.colorRows || {};
+
+  return `
+    <div class="shelf${bigClass}">
+      ${Array.from({ length: rows }, (_, index) => {
+        const row = index + 1;
+        const className = rowClasses[row] ? ` ${rowClasses[row]}` : "";
+        const color = colorRows[row] ? ` ${colorRows[row]}` : "";
+        const selected = selectedRow === row ? " selected" : "";
+        const contents = withBarcodes
+          ? `<div class="barcode" aria-label="${row}段目のJANコード"></div><div class="item${color}${selected}"></div><div class="item${color}"></div>`
+          : `<div class="item${color}${selected}"></div><div class="item${color}"></div><div class="item${color}"></div>`;
+
+        return `
+          <div class="shelf-row${className}">
+            <span class="row-label">${row}段目</span>
+            ${contents}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function dataStack(rows, options = {}) {
+  const targetRow = options.targetRow || 0;
+  const mergeTarget = options.mergeTarget || 0;
+  const filledRow = options.filledRow || 0;
+
+  return `
+    <div class="data-stack">
+      ${Array.from({ length: rows }, (_, index) => {
+        const row = index + 1;
+        const classes = [
+          row === targetRow ? "ghost-target" : "",
+          row === mergeTarget ? "merge-target" : ""
+        ].filter(Boolean).join(" ");
+        const contents = row === filledRow
+          ? `<div class="item green"></div><div class="item green"></div>`
+          : "";
+
+        return `
+          <div class="data-row ${classes}">
+            <span class="row-label">${row}段目</span>
+            ${contents}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function twoPanel(left, right) {
+  return `
+    <div class="panel-row">
+      <div class="shelf-wrap">
+        <p class="mini-title">実際の棚<span>4段</span></p>
+        ${left}
+      </div>
+      <div class="data-wrap">
+        <p class="mini-title">データ上の登録<span>3段</span></p>
+        ${right}
+      </div>
+    </div>
+  `;
+}
+
+const scenes = [
+  () => `
+    <h1 class="headline">あれ？不一致だ！</h1>
+    <div class="stage">
+      ${shelf(4, { big: true })}
+      <div class="warning pop" aria-label="警告">!</div>
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline small">4段あるのに、データ上では3段になってる！</h1>
+    <div class="stage">
+      ${twoPanel(shelf(4), dataStack(3))}
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline small">
+      <span>えーと、先頭のJANコードを確認して……</span>
+      <span class="subline late">あ、ここかあ。2段目と3段目でエリアをつないでるんだな</span>
+    </h1>
+    <div class="stage">
+      <div class="shelf-wrap">
+        ${shelf(4, {
+          barcodes: true,
+          rowClasses: { 2: "scan-a", 3: "scan-b" },
+          colorRows: { 2: "green", 3: "green" }
+        })}
+        <div class="connection"></div>
+        <div class="bridge-label">2段目＋3段目</div>
+      </div>
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline small">じゃあ、この3段目の実際のJANから、3段目として登録して……と</h1>
+    <div class="move-stage">
+      ${twoPanel(
+        shelf(4, { selectedRow: 3, colorRows: { 3: "green" } }),
+        dataStack(3, { targetRow: 3 })
+      )}
+      <div class="moving-item" aria-hidden="true"></div>
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline">
+      <span class="error-word">ブブー</span>
+      <span class="subline late">あれ？</span>
+    </h1>
+    <div class="stage">
+      <div class="error-box">
+        <div class="warning" aria-label="エラー">!</div>
+        <div class="error-note">エラー：登録先が重なっています</div>
+      </div>
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline small">
+      <span>そっか</span>
+      <span class="subline late">本来は4段目の商品も、3段目として登録してしまっているから……</span>
+      <span class="subline late2">修正した3段目と、くっついちゃうんだ！</span>
+    </h1>
+    <div class="merge-stage">
+      ${twoPanel(
+        shelf(4, { colorRows: { 3: "green", 4: "red" } }),
+        dataStack(3, { mergeTarget: 3 })
+      )}
+      <div class="merge-item third" aria-label="実際の3段目の商品"></div>
+      <div class="merge-item fourth" aria-label="実際の4段目の商品"></div>
+    </div>
+    <div></div>
+  `,
+  () => `
+    <h1 class="headline small">
+      <span>どうすればよかったのかな？</span>
+      <span class="subline late">そうか、下から修正すれば良かったんだね</span>
+    </h1>
+    <div class="stage">
+      <div class="order-stage">
+        <div class="order-layout">
+          <div>
+            <p class="mini-title">実際の棚</p>
+            ${shelf(4, { rowClasses: { 4: "fix-first" }, colorRows: { 4: "green" } })}
+          </div>
+          <div class="fix-flow">
+            <div class="fix-step">4段目を修正</div>
+            <div class="down-arrow">↓</div>
+            <div class="fix-step">3段目を修正</div>
+          </div>
+        </div>
+        <div class="rule">段数が増えているときは、下から修正する</div>
+      </div>
+    </div>
+    <div></div>
+  `
+];
+
+function renderScene() {
+  sceneEl.className = currentScene === 4 ? "scene shake" : "scene";
+  sceneEl.innerHTML = scenes[currentScene]();
+  backBtn.disabled = currentScene === 0;
+  nextBtn.disabled = currentScene === lastScene;
+}
+
+function goNext() {
+  if (currentScene < lastScene) {
+    currentScene += 1;
+    renderScene();
+  }
+}
+
+function goBack() {
+  if (currentScene > 0) {
+    currentScene -= 1;
+    renderScene();
+  }
+}
+
+function restart() {
+  currentScene = 0;
+  renderScene();
+}
+
+document.addEventListener("click", (event) => {
+  if (event.target.closest(".controls")) {
+    return;
+  }
+  goNext();
+});
+
+backBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  goBack();
+});
+
+nextBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  goNext();
+});
+
+restartBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  restart();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight" || event.key === " ") {
+    event.preventDefault();
+    goNext();
+  }
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    goBack();
+  }
+});
+
+renderScene();
+
+  </script>
+</body>
+</html>
