@@ -281,6 +281,7 @@ button {
   height: 66px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 5px;
   padding: 7px 8px 7px 32px;
   border-bottom: 3px solid var(--line);
@@ -467,6 +468,18 @@ button {
   top: 214px;
 }
 
+.scene1 .scene1-talk {
+  right: 42px;
+}
+
+.scene2 .scene2-talk {
+  left: 142px;
+  top: 84px;
+  max-width: 150px;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+}
+
 .scene2 .shelf {
   position: absolute;
   left: 52px;
@@ -608,7 +621,7 @@ button {
   left: 0;
   right: 0;
   top: 52px;
-  height: 106px;
+  height: 124px;
   border: 5px solid var(--green);
   border-radius: 12px;
   opacity: 0;
@@ -626,6 +639,48 @@ button {
   transform: rotate(10deg);
   opacity: 0;
   animation: fadeUp 0.4s ease 1.5s forwards;
+}
+
+.scene6 .comparison {
+  top: 64px;
+  gap: 18px;
+}
+
+.scene6 .shelf {
+  width: 154px;
+}
+
+.scene6 .shelf.small {
+  width: 138px;
+}
+
+.scene6 .shelf-row {
+  height: 58px;
+  gap: 4px;
+  padding-left: 28px;
+}
+
+.scene6 .shelf.small .shelf-row {
+  height: 58px;
+  padding-left: 28px;
+}
+
+.scene6 .item {
+  width: 24px;
+  height: 29px;
+}
+
+.scene6 .row-num {
+  left: 4px;
+}
+
+.scene6 .connect-box {
+  top: 58px;
+  height: 116px;
+}
+
+.scene6 .caption {
+  top: 4px;
 }
 
 .color-legend {
@@ -975,6 +1030,7 @@ function shelf(rows = 4, options = {}) {
   const leadingJanBelow = options.leadingJanBelow || false;
   const count = options.count || false;
   const colors = options.colors || {};
+  const counts = options.counts || {};
   const labels = options.labels !== false;
   const connectRows = options.connectRows || [];
   const emptyRows = options.emptyRows || [];
@@ -988,13 +1044,14 @@ function shelf(rows = 4, options = {}) {
           count ? "count-row" : "",
           connectRows.includes(row) ? "connected" : ""
         ].filter(Boolean).join(" ");
+        const itemCount = counts[row] || 3;
         const rowItems = emptyRows.includes(row)
           ? ""
           : leadingJanBelow
             ? `<span class="item-stack"><span class="item ${color}"></span><span class="jan"></span></span><span class="item ${color}"></span><span class="item ${color}"></span>`
             : janBelow
-            ? Array.from({ length: 3 }, () => `<span class="item-stack"><span class="item ${color}"></span><span class="jan"></span></span>`).join("")
-            : `${jan ? '<span class="jan"></span>' : ""}<span class="item ${color}"></span><span class="item ${color}"></span><span class="item ${color}"></span>`;
+            ? Array.from({ length: itemCount }, () => `<span class="item-stack"><span class="item ${color}"></span><span class="jan"></span></span>`).join("")
+            : `${jan ? '<span class="jan"></span>' : ""}${Array.from({ length: itemCount }, () => `<span class="item ${color}"></span>`).join("")}`;
 
         return `
           <div class="shelf-row ${rowClass}">
@@ -1061,7 +1118,7 @@ const scenes = [
         <div class="top-note late">エリア登録</div>
         ${shelf(4, { labels: false })}
         ${img("senpatsu.png", "character senpatsu static-left", "先発担当者")}
-        <div class="talk right">この棚は<br>全部で4エリア！</div>
+        <div class="talk right scene1-talk">この棚は<br>全部で4エリア！</div>
       </div>
     `
   },
@@ -1073,6 +1130,7 @@ const scenes = [
         ${shelf(4, { labels: false })}
         ${img("denpa.png", "denpa", "電波")}
         ${img("kouhatsu.png", "character kouhatsu static-right", "後発担当者")}
+        <div class="talk scene2-talk">全部で<br>4エリアだぞ！</div>
       </div>
     `
   },
@@ -1113,15 +1171,14 @@ const scenes = [
   },
   {
     title: "これはまずい！",
-    subtitle: "2段目と3段目をつないで登録してしまっている",
     body: `
       <div class="board scene6">
         ${compareLayout(
-          `<div class="shelf-wrap">${shelf(4, { colors: { 2: "yellow", 3: "pink" } })}<div class="connect-box"></div></div>`,
-          dataShelf(3, { colors: { 2: "yellow", 3: "pink" } }),
+          `<div class="shelf-wrap">${shelf(4, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 3, 3: 3 } })}<div class="connect-box"></div></div>`,
+          dataShelf(3, { colors: { 2: "yellow", 3: "pink" }, counts: { 2: 6, 3: 3 } }),
           `<div class="wrong-connect"></div>`
         )}
-        <div class="caption late2">実際の棚と登録上の棚で、つながり方がズレている</div>
+        <div class="caption late">実際の棚と登録上の棚で、つながり方がズレている</div>
       </div>
     `
   },
