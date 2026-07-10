@@ -64,20 +64,20 @@ button {
 
 .headline {
   margin: 0;
-  min-height: 112px;
+  min-height: 104px;
   display: grid;
   place-items: start center;
   gap: 6px;
   padding-top: 26px;
   text-align: center;
-  font-size: clamp(1.18rem, 5.5vw, 1.62rem);
+  font-size: clamp(1.24rem, 5.4vw, 1.58rem);
   line-height: 1.25;
   font-weight: 900;
   letter-spacing: 0;
 }
 
 .headline.big {
-  font-size: clamp(1.55rem, 7.6vw, 2.25rem);
+  font-size: clamp(1.48rem, 7vw, 2.08rem);
 }
 
 .headline .sub {
@@ -134,15 +134,15 @@ button {
 }
 
 .senpatsu {
-  width: 138px;
+  width: 128px;
 }
 
 .kouhatsu {
-  width: 140px;
+  width: 142px;
 }
 
 .kouhatsu.tall {
-  width: 126px;
+  width: 142px;
 }
 
 .yubisashi {
@@ -173,6 +173,16 @@ button {
 .stand-left {
   left: 4px;
   top: 132px;
+}
+
+.static-left {
+  left: 12px;
+  top: 214px;
+}
+
+.static-right {
+  right: 0;
+  top: 176px;
 }
 
 .talk {
@@ -209,7 +219,7 @@ button {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.92);
   color: var(--text);
-  font-size: 1rem;
+  font-size: 1.06rem;
   line-height: 1.35;
   font-weight: 900;
   text-align: center;
@@ -219,13 +229,13 @@ button {
   position: absolute;
   left: 18px;
   right: 18px;
-  top: 0;
+  top: 4px;
   z-index: 9;
   padding: 10px 12px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   color: var(--text);
-  font-size: 1.14rem;
+  font-size: 1.06rem;
   line-height: 1.35;
   font-weight: 900;
   text-align: center;
@@ -436,69 +446,88 @@ button {
 .scene1 .shelf {
   position: absolute;
   right: 34px;
-  top: 128px;
+  top: 168px;
 }
 
 .scene1 .talk {
-  right: 18px;
-  top: 238px;
+  right: 16px;
+  top: 278px;
 }
 
 .scene2 .shelf {
   position: absolute;
   left: 52px;
-  top: 112px;
+  top: 168px;
 }
 
 .scene2 .denpa {
-  left: 110px;
-  top: 220px;
+  left: 112px;
+  top: 270px;
 }
 
 .scene3 .shelf {
   position: absolute;
-  left: 46px;
-  top: 98px;
+  left: 40px;
+  top: 158px;
 }
 
 .scene3 .warning {
-  right: 50px;
-  top: 96px;
+  right: 54px;
+  top: 154px;
 }
 
 .scene3 .fuicchi {
   position: absolute;
-  left: 55px;
-  top: 210px;
+  left: 62px;
+  top: 260px;
   z-index: 6;
   width: 278px;
   opacity: 0;
   animation: fadeUp 0.5s ease 0.9s forwards;
 }
 
+.error-panel {
+  position: absolute;
+  left: 64px;
+  right: 34px;
+  top: 244px;
+  z-index: 8;
+  padding: 54px 18px 58px;
+  border: 18px solid #070707;
+  border-radius: 18px 18px 0 0;
+  background: white;
+  color: #111827;
+  font-size: 1.42rem;
+  line-height: 1.55;
+  font-weight: 800;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.45s ease 0.85s forwards;
+}
+
 .scene4 .shelf {
   position: absolute;
-  left: 72px;
-  top: 126px;
+  left: 64px;
+  top: 168px;
   width: 190px;
 }
 
 .scene4 .kouhatsu {
-  right: 8px;
-  top: 116px;
+  right: 0;
+  top: 176px;
 }
 
 .scene5 .shelf {
   position: absolute;
   left: 18px;
-  top: 104px;
-  width: 220px;
+  top: 154px;
+  width: 214px;
 }
 
 .scene5 .register {
   position: absolute;
-  right: 2px;
-  top: 176px;
+  right: 0;
+  top: 218px;
 }
 
 .scene5 .jan {
@@ -1017,10 +1046,8 @@ const scenes = [
     body: `
       <div class="board scene1">
         ${shelf(4, { labels: false })}
-        ${img("senpatsu.png", "character senpatsu enter-left", "先発担当者")}
+        ${img("senpatsu.png", "character senpatsu static-left", "先発担当者")}
         <div class="talk right">この棚は<br>全部で4エリア？</div>
-        <div class="arrow left">←</div>
-        <div class="arrow right">→</div>
       </div>
     `
   },
@@ -1031,7 +1058,7 @@ const scenes = [
         <div class="top-note late">後発が棚の情報を受信</div>
         ${shelf(4, { labels: false })}
         ${img("denpa.png", "denpa", "電波")}
-        ${img("kouhatsu.png", "character kouhatsu enter-right", "後発担当者")}
+        ${img("kouhatsu.png", "character kouhatsu static-right", "後発担当者")}
       </div>
     `
   },
@@ -1044,6 +1071,7 @@ const scenes = [
         ${shelf(4, { labels: false })}
         <div class="warning pop">!</div>
         ${img("fuicchi.png", "fuicchi", "不一致表示")}
+        <div class="error-panel">登録数４エリアに対し、<br>カウントは３エリア<br>です。</div>
       </div>
     `
   },
@@ -1060,12 +1088,12 @@ const scenes = [
     `
   },
   {
-    title: "各エリアの先頭JANコードを見比べる",
+    title: "各エリアの先頭JANコードを<br>見比べる",
     body: `
       <div class="board scene5">
         ${shelf(4, { leadingJanBelow: true })}
         ${registerBox()}
-        <div class="caption late2">実棚の先頭JANと、登録上の先頭JANを見る</div>
+        <div class="top-note late">実棚の先頭JANと、登録上の<br>先頭JANを見る</div>
       </div>
     `
   },
