@@ -639,34 +639,34 @@ button {
 }
 
 .scene6 .comparison {
-  left: 36px;
-  right: 36px;
+  left: 18px;
+  right: 18px;
   top: 82px;
   gap: 18px;
 }
 
 .scene6 .shelf {
-  width: 132px;
+  width: 154px;
 }
 
 .scene6 .shelf.small {
-  width: 126px;
+  width: 150px;
 }
 
 .scene6 .shelf-row {
-  height: 52px;
+  height: 64px;
   gap: 4px;
   padding-left: 28px;
 }
 
 .scene6 .shelf.small .shelf-row {
-  height: 56px;
+  height: 64px;
   padding-left: 28px;
 }
 
 .scene6 .item {
-  width: 20px;
-  height: 25px;
+  width: 24px;
+  height: 29px;
 }
 
 .scene6 .row-num {
@@ -677,8 +677,8 @@ button {
 }
 
 .scene6 .connect-box {
-  top: 52px;
-  height: 104px;
+  top: 64px;
+  height: 128px;
   border-radius: 10px;
 }
 
@@ -703,11 +703,17 @@ button {
 .mixed-items {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 20px);
-  gap: 4px 5px;
-  padding: 5px 7px;
+  grid-template-columns: repeat(6, 10px);
+  gap: 3px;
+  padding: 8px 9px;
   border: 3px solid var(--red);
   background: white;
+}
+
+.mixed-items .item {
+  width: 10px;
+  height: 33px;
+  border-radius: 3px;
 }
 
 .mixed-items::before,
@@ -1057,39 +1063,44 @@ button {
   }
 
   .scene6 .comparison {
-    left: 24px;
-    right: 24px;
-    gap: 14px;
+    left: 10px;
+    right: 10px;
+    gap: 12px;
   }
 
   .scene6 .shelf {
-    width: 122px;
+    width: 142px;
   }
 
   .scene6 .shelf.small {
-    width: 118px;
+    width: 138px;
   }
 
   .scene6 .shelf-row,
   .scene6 .shelf.small .shelf-row {
-    height: 50px;
+    height: 58px;
     padding-left: 26px;
   }
 
   .scene6 .item {
-    width: 18px;
-    height: 23px;
+    width: 21px;
+    height: 27px;
   }
 
   .scene6 .connect-box {
-    top: 50px;
-    height: 100px;
+    top: 58px;
+    height: 116px;
   }
 
   .mixed-items {
-    grid-template-columns: repeat(3, 18px);
-    gap: 4px 5px;
-    padding: 5px 6px;
+    grid-template-columns: repeat(6, 9px);
+    gap: 3px;
+    padding: 8px 8px;
+  }
+
+  .mixed-items .item {
+    width: 9px;
+    height: 31px;
   }
 }
 
