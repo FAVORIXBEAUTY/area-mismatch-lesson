@@ -566,6 +566,17 @@ button {
   animation: janZoom 1s ease forwards;
 }
 
+.scene7 .scene7-jan-row .jan {
+  animation: janZoom 1s ease 0.7s forwards;
+}
+
+.scene7 .mixed-items .item:nth-child(4) {
+  position: relative;
+  z-index: 6;
+  transform-origin: center;
+  animation: cardZoom 1s ease 0.7s forwards;
+}
+
 .scene5 .shelf-row:nth-child(1) .jan {
   animation-delay: 0.25s;
 }
@@ -638,33 +649,39 @@ button {
   display: none;
 }
 
-.scene6 .comparison {
+.scene6 .comparison,
+.scene7 .comparison {
   left: 18px;
   right: 18px;
   top: 82px;
   gap: 18px;
 }
 
-.scene6 .shelf {
+.scene6 .shelf,
+.scene7 .shelf {
   width: 154px;
 }
 
-.scene6 .shelf.small {
+.scene6 .shelf.small,
+.scene7 .shelf.small {
   width: 150px;
 }
 
-.scene6 .shelf-row {
+.scene6 .shelf-row,
+.scene7 .shelf-row {
   height: 64px;
   gap: 4px;
   padding-left: 28px;
 }
 
-.scene6 .shelf.small .shelf-row {
+.scene6 .shelf.small .shelf-row,
+.scene7 .shelf.small .shelf-row {
   height: 64px;
   padding-left: 28px;
 }
 
-.scene6 .item {
+.scene6 .item,
+.scene7 .item {
   width: 24px;
   height: 29px;
 }
@@ -676,7 +693,8 @@ button {
   font-size: 0.8rem;
 }
 
-.scene6 .connect-box {
+.scene6 .connect-box,
+.scene7 .connect-box {
   top: 64px;
   height: 128px;
   border-radius: 10px;
@@ -700,7 +718,8 @@ button {
   top: 8px;
 }
 
-.scene6 .mini-title {
+.scene6 .mini-title,
+.scene7 .mini-title {
   min-height: 32px;
   margin-bottom: 6px;
   font-size: 0.95rem;
@@ -1000,6 +1019,19 @@ button {
   }
 }
 
+@keyframes cardZoom {
+  0%,
+  100% {
+    box-shadow: none;
+    transform: scale(1);
+  }
+  45%,
+  75% {
+    box-shadow: 0 0 0 6px rgba(219, 39, 119, 0.22);
+    transform: scale(1.65);
+  }
+}
+
 @keyframes connectShow {
   from {
     opacity: 0;
@@ -1081,32 +1113,39 @@ button {
     max-width: 42%;
   }
 
-  .scene6 .comparison {
+  .scene6 .comparison,
+  .scene7 .comparison {
     left: 10px;
     right: 10px;
     gap: 12px;
   }
 
-  .scene6 .shelf {
+  .scene6 .shelf,
+  .scene7 .shelf {
     width: 142px;
   }
 
-  .scene6 .shelf.small {
+  .scene6 .shelf.small,
+  .scene7 .shelf.small {
     width: 138px;
   }
 
   .scene6 .shelf-row,
-  .scene6 .shelf.small .shelf-row {
+  .scene6 .shelf.small .shelf-row,
+  .scene7 .shelf-row,
+  .scene7 .shelf.small .shelf-row {
     height: 58px;
     padding-left: 26px;
   }
 
-  .scene6 .item {
+  .scene6 .item,
+  .scene7 .item {
     width: 21px;
     height: 27px;
   }
 
-  .scene6 .connect-box {
+  .scene6 .connect-box,
+  .scene7 .connect-box {
     top: 58px;
     height: 116px;
   }
@@ -1231,7 +1270,7 @@ function compareLayout(left, right, extra = "") {
         ${left}
       </div>
       <div class="compare-card">
-        <p class="mini-title">登録上の棚</p>
+        <p class="mini-title">カウント状態</p>
         ${right}
       </div>
     </div>
@@ -1255,6 +1294,30 @@ function scene6RegisteredShelf() {
       </div>
       <div class="shelf-row">
         <span class="row-num">3</span>
+        <span class="item green"></span><span class="item green"></span><span class="item green"></span>
+      </div>
+    </div>
+  `;
+}
+
+function scene7ActualShelf() {
+  return `
+    <div class="shelf">
+      <div class="shelf-row">
+        <span class="row-num">1</span>
+        <span class="item"></span><span class="item"></span><span class="item"></span>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">2</span>
+        <span class="item yellow"></span><span class="item yellow"></span><span class="item yellow"></span>
+      </div>
+      <div class="shelf-row scene7-jan-row">
+        <span class="row-num">3</span>
+        <span class="item-stack"><span class="item pink"></span><span class="jan"></span></span>
+        <span class="item pink"></span><span class="item pink"></span>
+      </div>
+      <div class="shelf-row">
+        <span class="row-num">4</span>
         <span class="item green"></span><span class="item green"></span><span class="item green"></span>
       </div>
     </div>
@@ -1343,22 +1406,14 @@ const scenes = [
     `
   },
   {
-    title: "これはまずい！3段目の先頭JANを特定して、そのまま3段目に",
+    title: "修正失敗例",
     body: `
       <div class="board scene7">
+        <div class="caption late">間違えた所から直接次の段に切り替える</div>
         ${compareLayout(
-          shelf(4, { jan: true, colors: { 1: "gray", 2: "yellow", 3: "pink", 4: "green" } }),
-          dataShelf(3, { colors: { 1: "gray", 2: "yellow", 3: "pink" } })
+          scene7ActualShelf(),
+          scene6RegisteredShelf()
         )}
-        <span class="focus-ring actual"></span>
-        <span class="focus-ring data"></span>
-        ${img("yubisashi.png", "yubisashi", "指差し")}
-        <div class="color-legend">
-          <div><span class="legend-dot gray"></span>1段目</div>
-          <div><span class="legend-dot yellow"></span>2段目</div>
-          <div><span class="legend-dot pink"></span>3段目</div>
-          <div><span class="legend-dot green"></span>4段目</div>
-        </div>
       </div>
     `
   },
